@@ -1,13 +1,13 @@
-DROP DATABASE IF EXISTS caseStudyModul3;
-create database caseStudyModul3;
-use caseStudyModul3;
+DROP DATABASE IF EXISTS caseStudyModule3;
+create database caseStudyModule3;
+use caseStudyModule3;
 
 
 ALTER USER "root"@"localhost" IDENTIFIED BY "123456789";
 
 
 create table TypeWorkingDate(
-IdTypeWorkingDate int auto_increment primary key,
+IdTypeWorkingDate int primary key,
 NameWorkingDate varchar(20)
 );
 
@@ -18,30 +18,35 @@ IdTypeWorkingDate int,
 foreign key (IdTypeWorkingDate) references TypeWorkingDate(IdTypeWorkingDate)
 );
 
+
+CREATE TABLE Positions(
+IdPosition int  primary key,
+NamePositions varchar(50)
+);
+
+
 CREATE TABLE Employee (
     IDEmployee INT auto_increment PRIMARY KEY,
     PasswordEmployee varchar(100),
-    IdCalendarWorkingYear int,
+    IdPosition int,
     NameEmployee VARCHAR(40),
+    IdCalendarWorkingYear int,
     dateOfBirth DATE,
     phone VARCHAR(11),
     joinDate DATE,
     numberOfDependents tinyint,
     Img text,
+    foreign key(IdPosition) references Positions(IdPosition),
     foreign key(IdCalendarWorkingYear) references CalendarWorkingYear(IdCalendarWorkingYear)
 );
 
-
-CREATE TABLE Positions(
-IdPosition int auto_increment primary key,
-NamePositions varchar(50)
-);
 
 
 create table Department(
 IdDepartment int auto_increment primary key,
 NameDepartment varchar(120)
 );
+
 
 create table TypeAllowance(
 IdTypeAllowance int auto_increment primary key,
@@ -70,7 +75,7 @@ create table Contract(
     IdAllowance int ,
     IdPosition INT,
     IdDepartment INT,
-    basicSalary BIGINT,
+    basicSalary INT,
     StartDay DATE,
     EndDay DATE,
     StatusContract BOOLEAN,
@@ -91,7 +96,7 @@ foreign key (IdAllowance) references Allowance(IdAllowance)
 create table WorkingDateDetail(
 WorkingDate date primary key,
 IDEmployee int,
-HoursInt datetime,
+HoursIn datetime,
 HoursOut datetime,
 foreign key(IDEmployee) references Employee(IDEmployee)
 );
@@ -106,6 +111,33 @@ foreign key(IdEmployeeReceive) references Employee(IdEmployee),
 constraint IdEmployeeDifferent check (IdEmployeeSent<>IdEmployeeReceive)
 );
 
+
+insert into TypeWorkingDate(IdTypeWorkingDate,NameWorkingDate) values
+(1,"Ngày thường"),
+(2,"Ngày lễ"),
+(3,"Thứ bảy,Chủ nhật");
+
+insert into CalendarWorkingYear(Date,IdTypeWorkingDate) values
+("2023-6-19",1),
+("2023-6-20",1),
+("2023-6-21",1),
+("2023-6-22",1),
+("2023-6-23",1),
+("2023-6-24",3),
+("2023-6-25",3);
+
+insert into Positions(IdPosition,NamePositions) values
+(1,"Giám đốc"),
+(2,"Quản lí"),
+(3,"Nhân sự"),
+(4,"Nhân viên");
+
+
+insert into Employee(PasswordEmployee,IdPosition) values
+("gd",1),
+("ql",2),
+("ns",3),
+("nv",4);
 
 
 
