@@ -29,7 +29,6 @@ ValuesAllowance int
 CREATE TABLE Employee (
     ID INT auto_increment PRIMARY KEY,
     Password varchar(100),
-    IdPosition int,
     Name VARCHAR(40),
     IdCalendarWorkingYear int,
     dateOfBirth DATE,
@@ -37,7 +36,6 @@ CREATE TABLE Employee (
     joinDate DATE,
     numberOfDependents tinyint,
     Img text,
-    foreign key(IdPosition) references Positions(Id),
     foreign key(IdCalendarWorkingYear) references CalendarWorkingYear(Id)
 );
 
@@ -142,8 +140,6 @@ insert into Contract(IDEmployee,IdPosition,Status) values
 (4,4,true),
 (5,4,false);
                          
-
-
 
 
 
