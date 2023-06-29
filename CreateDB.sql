@@ -7,70 +7,65 @@ ALTER USER "root"@"localhost" IDENTIFIED BY "123456789";
 
 
 create table TypeWorkingDate(
-IdTypeWorkingDate int primary key,
-NameWorkingDate varchar(20)
+Id int primary key,
+Name varchar(20)
 );
 
 create table CalendarWorkingYear(
-IdCalendarWorkingYear int auto_increment primary key,
+Id int auto_increment primary key,
 Date Date,
 IdTypeWorkingDate int,
-foreign key (IdTypeWorkingDate) references TypeWorkingDate(IdTypeWorkingDate)
+foreign key (IdTypeWorkingDate) references TypeWorkingDate(Id)
 );
 
 
 CREATE TABLE Positions(
-IdPosition int  primary key,
-NamePositions varchar(50)
+Id int  primary key,
+Name varchar(50),
+ValuesAllowance int
 );
 
 
 CREATE TABLE Employee (
-    IDEmployee INT auto_increment PRIMARY KEY,
-    PasswordEmployee varchar(100),
+    ID INT auto_increment PRIMARY KEY,
+    Password varchar(100),
     IdPosition int,
-    NameEmployee VARCHAR(40),
+    Name VARCHAR(40),
     IdCalendarWorkingYear int,
     dateOfBirth DATE,
     phone VARCHAR(11),
     joinDate DATE,
     numberOfDependents tinyint,
     Img text,
-    foreign key(IdPosition) references Positions(IdPosition),
-    foreign key(IdCalendarWorkingYear) references CalendarWorkingYear(IdCalendarWorkingYear)
+    foreign key(IdPosition) references Positions(Id),
+    foreign key(IdCalendarWorkingYear) references CalendarWorkingYear(Id)
 );
 
 
 
 create table Department(
-IdDepartment int auto_increment primary key,
-NameDepartment varchar(120)
+Id int auto_increment primary key,
+Name varchar(120)
 );
 
 
 create table TypeAllowance(
-IdTypeAllowance int auto_increment primary key,
-NameTypeAllowance varchar(100)
+Id int auto_increment primary key,
+Name varchar(100)
 );
 
-create table Conditions(
-IdCondition int auto_increment primary key,
-NameCondition varchar(100),
-ValuesAllowance int
-);
 
 create table Allowance(
-IdAllowance int auto_increment primary key,
+Id int auto_increment primary key,
 IdTypeAllowance int,
-NameAllowance varchar(100),
-IdCondition int,
-foreign key (IdTypeAllowance) references TypeAllowance(IdTypeAllowance),
-foreign key (IdCondition) references Conditions(IdCondition)
+Name varchar(100),
+ValuesAllowance int,
+foreign key (IdTypeAllowance) references TypeAllowance(Id)
 );
 
 
 create table Contract(
-    IDContract int auto_increment PRIMARY KEY,
+    ID int auto_increment PRIMARY KEY,
 	IDEmployee INT,
     IdAllowance int ,
     IdPosition INT,
@@ -78,18 +73,18 @@ create table Contract(
     basicSalary INT,
     StartDay DATE,
     EndDay DATE,
-    StatusContract BOOLEAN,
-	FOREIGN KEY (idEmployee) REFERENCES Employee (IDEmployee),
-    FOREIGN KEY (IdPosition) REFERENCES Positions (IdPosition),
-    FOREIGN KEY (idDepartment) REFERENCES department (IdDepartment)
+    Status BOOLEAN,
+	FOREIGN KEY (idEmployee) REFERENCES Employee (ID),
+    FOREIGN KEY (IdPosition) REFERENCES Positions (Id),
+    FOREIGN KEY (IdDepartment) REFERENCES department (Id)
 );
 
 
 create table AllowanceDetail(
 IDContract int ,
 IdAllowance int,
-foreign key (IDContract) references Contract(IDContract),
-foreign key (IdAllowance) references Allowance(IdAllowance)
+foreign key (IDContract) references Contract(ID),
+foreign key (IdAllowance) references Allowance(Id)
 );
 
 
@@ -98,7 +93,7 @@ WorkingDate date primary key,
 IDEmployee int,
 HoursIn datetime,
 HoursOut datetime,
-foreign key(IDEmployee) references Employee(IDEmployee)
+foreign key(IDEmployee) references Employee(ID)
 );
 
 create table Message(
@@ -106,13 +101,13 @@ IdMessage int auto_increment primary key,
 IdEmployeeSent int,
 IdEmployeeReceive int,
 Content longtext,
-foreign key(IdEmployeeSent) references Employee(IdEmployee),
-foreign key(IdEmployeeReceive) references Employee(IdEmployee),
+foreign key(IdEmployeeSent) references Employee(Id),
+foreign key(IdEmployeeReceive) references Employee(Id),
 constraint IdEmployeeDifferent check (IdEmployeeSent<>IdEmployeeReceive)
 );
 
 
-insert into TypeWorkingDate(IdTypeWorkingDate,NameWorkingDate) values
+insert into TypeWorkingDate(Id,Name) values
 (1,"Ngày thường"),
 (2,"Ngày lễ"),
 (3,"Thứ bảy,Chủ nhật");
@@ -126,18 +121,27 @@ insert into CalendarWorkingYear(Date,IdTypeWorkingDate) values
 ("2023-6-24",3),
 ("2023-6-25",3);
 
-insert into Positions(IdPosition,NamePositions) values
+insert into Positions(Id,Name) values
 (1,"Giám đốc"),
 (2,"Quản lí"),
 (3,"Nhân sự"),
 (4,"Nhân viên");
 
 
-insert into Employee(PasswordEmployee,IdPosition) values
-("gd",1),
-("ql",2),
-("ns",3),
-("nv",4);
+insert into Employee(Id,Password) values
+(1,"gd"),
+(2,"ql"),
+(3,"ns"),
+(4,"nv"),
+(5,"nv2");
+
+insert into Contract(IDEmployee,IdPosition,Status) values
+(1,1,true),
+(2,2,true),
+(3,3,true),
+(4,4,true),
+(5,4,false);
+                         
 
 
 
