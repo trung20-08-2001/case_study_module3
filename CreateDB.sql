@@ -1,6 +1,10 @@
-drop database if exists caseStudyModul3;
+DROP DATABASE IF EXISTS caseStudyModul3;
 create database caseStudyModul3;
 use caseStudyModul3;
+
+
+ALTER USER "root"@"localhost" IDENTIFIED BY "123456789";
+
 
 create table TypeWorkingDate(
 IdTypeWorkingDate int auto_increment primary key,
