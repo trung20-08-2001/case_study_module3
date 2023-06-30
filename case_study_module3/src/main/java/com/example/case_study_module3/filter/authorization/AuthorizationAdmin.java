@@ -1,7 +1,7 @@
 package com.example.case_study_module3.filter.authorization;
 
+import com.example.case_study_module3.enums.Role;
 import com.example.case_study_module3.model.Employee;
-import com.example.case_study_module3.role.Role;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -19,7 +19,7 @@ public class AuthorizationAdmin extends HttpFilter {
         HttpSession session = req.getSession();
         Employee employee = (Employee) session.getAttribute("employee");
         if (employee != null) {
-            if (employee.getIdPosition() == Role.ROLE_ADMIN) {
+            if (employee.getIdPosition() == Role.ADMIN.getValue()) {
                 chain.doFilter(req, res);
             } else {
                 res.sendRedirect("/view/notrole.jsp");

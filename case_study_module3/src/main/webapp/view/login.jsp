@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
   User: trung
@@ -36,25 +37,25 @@
                   <h5 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">Sign into your account</h5>
 
                   <div class="form-outline mb-4">
-                    <input type="text" name="id"  id="form2Example17" class="form-control form-control-lg" />
-                    <label class="form-label" for="form2Example17">ID you</label>
+                    <input type="text" name="id" value="${id}" required pattern="[0-9]*" placeholder="Your ID"  id="form2Example17" class="form-control form-control-lg" />
+                      <c:if test="${message2!=null}">
+                          <label class="form-label" for="form2Example27">${message2}</label>
+                      </c:if>
                   </div>
-
                   <div class="form-outline mb-4">
-                    <input type="password" name="password" id="form2Example27" class="form-control form-control-lg" />
-                    <label class="form-label" for="form2Example27">Password</label>
+                    <input type="password" name="password" required  placeholder="Password" id="form2Example27" class="form-control form-control-lg" />
+                    <c:if test="${message1!=null}">
+                        <label class="form-label" for="form2Example27">${message1}</label>
+                    </c:if>
                   </div>
-
                   <div class="pt-1 mb-4">
                     <button class="btn btn-dark btn-lg btn-block" type="submit">Login</button>
                   </div>
-
                   <a class="small text-muted" href="#!">Forgot password?</a>
 <%--                  <p class="mb-5 pb-lg-2" style="color: #393f81;">Don't have an account? <a href="#!" style="color: #393f81;">Register here</a></p>--%>
                   <a href="#!" class="small text-muted">Terms of use.</a>
                   <a href="#!" class="small text-muted">Privacy policy</a>
                 </form>
-
               </div>
             </div>
           </div>

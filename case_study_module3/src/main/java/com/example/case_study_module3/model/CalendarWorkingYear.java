@@ -4,25 +4,25 @@ import java.util.Date;
 
 public class CalendarWorkingYear {
 
-    private int IdCalendarWorkingYear;
+    private int id;
     private Date date;
     private int IdTypeWorkingDate;
 
     public CalendarWorkingYear() {
     }
 
-    public CalendarWorkingYear(int idCalendarWorkingYear, Date date, int idTypeWorkingDate) {
-        IdCalendarWorkingYear = idCalendarWorkingYear;
+    public CalendarWorkingYear(int id, Date date, int idTypeWorkingDate) {
+        this.id = id;
         this.date = date;
         IdTypeWorkingDate = idTypeWorkingDate;
     }
 
-    public int getIdCalendarWorkingYear() {
-        return IdCalendarWorkingYear;
+    public int getId() {
+        return id;
     }
 
-    public void setIdCalendarWorkingYear(int idCalendarWorkingYear) {
-        IdCalendarWorkingYear = idCalendarWorkingYear;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public Date getDate() {

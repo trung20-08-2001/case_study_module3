@@ -4,16 +4,16 @@ public class Allowance {
     private int id;
     private int idTypeAllowance;
     private String name;
-    private int idCondition;
+    private int value;
 
     public Allowance() {
     }
 
-    public Allowance(int id, int idTypeAllowance, String name, int idCondition) {
+    public Allowance(int id, int idTypeAllowance, String name, int value) {
         this.id = id;
         this.idTypeAllowance = idTypeAllowance;
         this.name = name;
-        this.idCondition = idCondition;
+        this.value = value;
     }
 
     public int getId() {
@@ -40,11 +40,11 @@ public class Allowance {
         this.name = name;
     }
 
-    public int getIdCondition() {
-        return idCondition;
+    public int getValue() {
+        return value;
     }
 
-    public void setIdCondition(int idCondition) {
-        this.idCondition = idCondition;
+    public void setValue(int value) {
+        this.value = value;
     }
 }
