@@ -12,14 +12,14 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-@WebFilter("/view/employee.jsp")
+@WebFilter("/view/user.jsp")
 public class AuthorizationEmployee extends HttpFilter {
     @Override
     protected void doFilter(HttpServletRequest req, HttpServletResponse res, FilterChain chain) throws IOException, ServletException {
         HttpSession session = req.getSession();
         Employee employee = (Employee) session.getAttribute("employee");
         if (employee != null) {
-            if (employee.getIdPosition() == Role.EMPLOYEE.getValue()) {
+            if (employee.getIdPosition() == Role.USER.getValue()) {
                 chain.doFilter(req, res);
             }else{
                 res.sendRedirect("/view/notrole.jsp");

@@ -8,7 +8,8 @@ ALTER USER "root"@"localhost" IDENTIFIED BY "123456789";
 
 create table TypeWorkingDate(
 Id int primary key,
-Name varchar(20)
+Name varchar(20),
+SalaryPerencentage DOUBLE
 );
 
 create table CalendarWorkingYear(
@@ -108,7 +109,8 @@ constraint IdEmployeeDifferent check (IdEmployeeSent<>IdEmployeeReceive)
 insert into TypeWorkingDate(Id,Name) values
 (1,"Ngày thường"),
 (2,"Ngày lễ"),
-(3,"Thứ bảy,Chủ nhật");
+(3,"Thứ bảy,Chủ nhật"),
+(4,"Nghỉ bù");
 
 insert into CalendarWorkingYear(Date,IdTypeWorkingDate) values
 ("2023-6-19",1),
@@ -127,11 +129,11 @@ insert into Positions(Id,Name) values
 
 
 insert into Employee(Id,Password) values
-(1,"gd"),
-(2,"ql"),
-(3,"ns"),
-(4,"nv"),
-(5,"nv2");
+(1,"gd123456"),
+(2,"ql123456"),
+(3,"ns123456"),
+(4,"nv123546"),
+(5,"nv123456");
 
 insert into Contract(IDEmployee,IdPosition,Status) values
 (1,1,true),
@@ -140,12 +142,6 @@ insert into Contract(IDEmployee,IdPosition,Status) values
 (4,4,true),
 (5,4,false);
                          
-
-
-
-
-
-
 
 
 

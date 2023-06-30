@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-@WebFilter({"/view/admin.jsp","/view/employee.jsp","/view/hr.jsp","/view/manager.jsp"})
+@WebFilter({"/view/director.jsp","/view/user.jsp","/view/admin.jsp","/view/manager.jsp"})
 public class Authentication extends HttpFilter {
     @Override
     protected void doFilter(HttpServletRequest req, HttpServletResponse res, FilterChain chain) throws IOException, ServletException {

@@ -11,7 +11,7 @@ public class EmployeeDAO {
     private final String SELECT_EMPLOYEE =
             "select * from Employee" +
                     " join Contract on Employee.Id=Contract.IdEmployee" +
-                    " where Employee.Id=? and Employee.Password=? and Contract.status=true";
+                    " where Employee.Id=? and Employee.Password=? ";
     private  final String SELECT_ID=" select *from Employee join Contract on Employee.Id=Contract.IdEmployee where Employee.Id=?  and Contract.status=true;";
 
     public Employee getEmployee(int id, String password) {
@@ -24,7 +24,8 @@ public class EmployeeDAO {
             if (resultSet.next()) {
                 int idPosition = resultSet.getInt("IdPosition");
                 String name = resultSet.getString("Name");
-                employee= new Employee(id, password, idPosition, name);
+                boolean statusContract=resultSet.getBoolean("Status");
+                employee= new Employee(id, password, idPosition, name, statusContract);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -48,6 +49,9 @@ public class EmployeeDAO {
         return false;
     }
 
-
+    public static void main(String[] args) {
+        EmployeeDAO employeeDAO=new EmployeeDAO();
+        employeeDAO.getEmployee(4,"nv123456");
+    }
 
 }

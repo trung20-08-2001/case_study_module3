@@ -10,8 +10,8 @@
 <html>
 <head>
     <title>Log in</title>
-
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 </head>
 <body>
 <section class="vh-100" style="background-color: #9A616D;">
@@ -41,9 +41,13 @@
                       <c:if test="${message2!=null}">
                           <label class="form-label" for="form2Example27">${message2}</label>
                       </c:if>
+                      <c:if test="${message3!=null}">
+                          <label class="form-label" for="form2Example27">${message3}</label>
+
+                      </c:if>
                   </div>
                   <div class="form-outline mb-4">
-                    <input type="password" name="password" required  placeholder="Password" id="form2Example27" class="form-control form-control-lg" />
+                    <input type="password" name="password" required pattern=".{6,}"  placeholder="Password" id="form2Example27" class="form-control form-control-lg" />
                     <c:if test="${message1!=null}">
                         <label class="form-label" for="form2Example27">${message1}</label>
                     </c:if>

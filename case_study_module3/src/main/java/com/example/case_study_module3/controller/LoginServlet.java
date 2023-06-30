@@ -29,16 +29,19 @@ public class LoginServlet extends HttpServlet {
         session.setAttribute("employee",employee);
 
         if (employee != null) {
-            if (employee.getIdPosition() == Role.ADMIN.getValue()) {
-                resp.sendRedirect("/view/admin.jsp");
-            } else if (employee.getIdPosition() ==  Role.MANAGER.getValue()) {
-                resp.sendRedirect("/view/manager.jsp");
-            } else if (employee.getIdPosition() ==  Role.HR.getValue()) {
-                resp.sendRedirect("/view/hr.jsp");
-            } else if(employee.getIdPosition()== Role.EMPLOYEE.getValue()){
-                resp.sendRedirect("/view/employee.jsp");
-            }else{
-                resp.sendRedirect("/view/404.jsp");
+            if(employee.isStatusContract()) {
+                if (employee.getIdPosition() == Role.DIRECTOR.getValue()) {
+                    resp.sendRedirect("/view/director.jsp");
+                } else if (employee.getIdPosition() == Role.MANAGER.getValue()) {
+                    resp.sendRedirect("/view/manager.jsp");
+                } else if (employee.getIdPosition() == Role.ADMIN.getValue()) {
+                    resp.sendRedirect("/view/admin.jsp");
+                } else if (employee.getIdPosition() == Role.USER.getValue()) {
+                    resp.sendRedirect("/view/user.jsp");
+                }
+            }else {
+                req.setAttribute("message3","Tài khoản của bạn đã bị khóa.");
+                dispatcher.forward(req,resp);
             }
         }else{
             if(isEmployee) {
