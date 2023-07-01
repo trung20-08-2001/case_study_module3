@@ -26,9 +26,9 @@ public class EmployeeDAO {
                 Date birthday=resultSet.getDate("dateOfBirth");
                 String phone=resultSet.getString("phone");
                 Date joinDate=resultSet.getDate("joinDate");
-                int numberOfDependents=resultSet.getInt("numberOfDependents");
+                byte numberOfDependents=resultSet.getByte("numberOfDependents");
                 String img=resultSet.getString("Img");
-                employee= new Employee(id, password, idPosition, name, statusContract);
+                employee= new Employee(id,password,idPosition,statusContract,name,birthday,phone,joinDate,numberOfDependents,img);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -36,6 +36,7 @@ public class EmployeeDAO {
         }
         return employee;
     }
+
 
     public boolean getId(int id) {
         try (Connection connection = connect.getConnection();

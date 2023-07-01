@@ -24,6 +24,7 @@ public class LoginServlet extends HttpServlet {
         String password = req.getParameter("password");
         Employee employee = employeeDAO.getEmployee(id, password);
         boolean isEmployee=employeeDAO.getId(id);
+        req.setAttribute("employee",employee);
 
         HttpSession session= req.getSession();
         session.setAttribute("employee",employee);
@@ -31,13 +32,13 @@ public class LoginServlet extends HttpServlet {
         if (employee != null) {
             if(employee.isStatusContract()) {
                 if (employee.getIdPosition() == Role.DIRECTOR.getValue()) {
-                    resp.sendRedirect("/view/director.jsp");
+                    req.getRequestDispatcher("/view/director.jsp").forward(req,resp);
                 } else if (employee.getIdPosition() == Role.MANAGER.getValue()) {
-                    resp.sendRedirect("/view/manager.jsp");
+                    req.getRequestDispatcher("/view/manager.jsp").forward(req,resp);
                 } else if (employee.getIdPosition() == Role.ADMIN.getValue()) {
-                    resp.sendRedirect("/view/admin.jsp");
+                    req.getRequestDispatcher("/view/admin.jsp").forward(req,resp);
                 } else if (employee.getIdPosition() == Role.USER.getValue()) {
-                    resp.sendRedirect("/view/user.jsp");
+                    req.getRequestDispatcher("/view/user.jsp").forward(req,resp);
                 }
             }else {
                 req.setAttribute("message3","Tài khoản của bạn đã bị khóa.");

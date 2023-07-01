@@ -11,7 +11,7 @@ th, td {
     text-align: center;
 }
 table{
-    margin: 0px 50px;
+    margin: 0px 0px;
     float: left;
 }
 .calendar{
@@ -19,7 +19,7 @@ table{
     margin-left: 0px;
 }
 .slice{
-    width: 941px;
+    width: 841px;
     margin: 1px auto;
     overflow: hidden;
     position: relative;
@@ -30,6 +30,7 @@ table{
 }
 .arrow i:last-child{
     position: relative;
-    left: 870px;
+    left: 765px;
 }
+
 html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}

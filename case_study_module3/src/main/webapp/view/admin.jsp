@@ -19,6 +19,13 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.4/dist/jquery.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+</head>
 <body class="w3-light-grey">
 
 <div class="w3-bar w3-top w3-black w3-large" style="z-index:4">
@@ -48,10 +55,10 @@
     <div class="w3-bar-block">
         <a href="#" class="w3-bar-item w3-button w3-padding-16 w3-hide-large w3-dark-grey w3-hover-black"
            onclick="w3_close()" title="close menu"><i class="fa fa-remove fa-fw"></i>  Close Menu</a>
-        <a href="#" class="w3-bar-item w3-button w3-padding w3-blue"><i class="fa fa-calendar"></i>   Tạo lịch làm việc</a>
+        <a href="#workingDate" class="w3-bar-item w3-button w3-padding w3-blue"><i class="fa fa-calendar"></i>   Tạo lịch làm việc</a>
         <a href="#" class="w3-bar-item w3-button w3-padding"><i class="fa fa-calendar"></i>  Xem lịch làm việc</a>
-        <a href="#" class="w3-bar-item w3-button w3-padding"><i class="fa fa-users fa-fw"></i>  Chấm công</a>
-        <a href="#" class="w3-bar-item w3-button w3-padding"><i class="fa fa-bullseye fa-fw"></i>  Geo</a>
+        <a href="#clickFingerprint" class="w3-bar-item w3-button w3-padding"><i class="fa fa-users fa-fw"></i>  Chấm công</a>
+        <a href="#" class="w3-bar-item w3-button w3-padding"><i class="fa fa-bullseye fa-fw"></i>  Xem TimeRecord</a>
         <a href="#" class="w3-bar-item w3-button w3-padding"><i class="fa fa-diamond fa-fw"></i>  Orders</a>
         <a href="#" class="w3-bar-item w3-button w3-padding"><i class="fa fa-bell fa-fw"></i>  News</a>
         <a href="#" class="w3-bar-item w3-button w3-padding"><i class="fa fa-bank fa-fw"></i>  General</a>
@@ -79,7 +86,7 @@
     ---------------------------------------------------------------->
     <div id="workingDate">
         <%int year = LocalDate.now().getYear();%>
-        <h1 style="text-align-last: center">Calendar <%=year%></h1>
+        <h1 style="text-align: center">Calendar <%=year%></h1>
         <div class="slice">
             <div class="arrow">
 
@@ -97,7 +104,7 @@
                         int maxDay = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
                 %>
 
-                <table class="month<%=month%>">
+                <table class="month<%=month%>" style="text-align: center">
                     <tr>
                         <th colspan="7">Tháng <%=(month + 1)%>
                         </th>
@@ -128,7 +135,7 @@
                         %>
                         <td>
                             <button style="border: none" onclick="showWorkingDateType(<%=day%>,<%=month%>)"> <%=day%> </button>
-                            <ul id="typeWorkingDate<%=day%><%=month%>" style="display: none" >
+                            <ul id="typeWorkingDate<%=day%><%=month%>" class="allDay" style="display: none" >
                                 <li> <a href="/createCalendar?year=<%=year%>&month=<%=month%>&day=<%=day%>&type=<%=WorkingDateType.HOLIDAY.getValue()%>">Nghỉ lễ </a></li>
                                 <li> <a href="/createCalendar?year=<%=year%>&month=<%=month%>&day=<%=day%>&type=<%=WorkingDateType.WEEKEND.getValue()%>">Nghỉ bù</a></li>
                             </ul>
@@ -150,7 +157,7 @@
             </div>
         </div>
     </div>
-
+    <hr>
 
 
     <!-------------------------------------------------------------
@@ -163,10 +170,39 @@
 
 
 
+    <!-------------------------------------------------------------
 
+                             BẤM VÂN TAY
 
+    ---------------------------------------------------------------->
 
+<div id="clickFingerprint">
+    <h1 style="text-align: center">Chấm công</h1>
+    <div class="d-flex justify-content-center">
+    <a href="/checkHour?id=${employee.getId()}" ><i class="fas fa-fingerprint" style="font-size:36px"></i></a>
+    </div>
 
+    <c:if test="${message!=null}">
+        <p>${message}</p>
+    </c:if>
+
+    <!-- The Modal -->
+    <div  id="myModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <h1 class="text-center">${message}</h1>
+                </div>
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
 
 
 
@@ -346,7 +382,7 @@
 </body>
 </html>
 <script>
-    let sizeTable = document.getElementsByClassName("slice")[0].clientWidth;
+    let sizeTable = document.getElementsByClassName("slice")[0].clientWidth-0.3;
     let calendar = document.getElementsByClassName("calendar")[0];
     let move = 0;
 
@@ -369,12 +405,11 @@
     }
 
     function  showWorkingDateType(day,month) {
+        let allDay=document.getElementsByClassName("allDay");
         let selectWorkingDateType = document.getElementById("typeWorkingDate"+day+month)
-        if(selectWorkingDateType.style.display==="none")
-            selectWorkingDateType.style.display="block";
-        else{
-            selectWorkingDateType.style.display="none";
+        for(let i=0;i<allDay.length;i++){
+            allDay[i].style.display="none";
         }
+        selectWorkingDateType.style.display="block";
     }
-
 </script>

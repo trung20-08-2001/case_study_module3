@@ -43,9 +43,6 @@ public class CalendarWorkingYearDAO {
         }
     }
 
-    public static void main(String[] args) {
-       new CalendarWorkingYearDAO().saveCalendar(2023);
-    }
 
     public List<CalendarWorkingYear> getCalendarWorkingYear() {
         List<CalendarWorkingYear> calendarWorkingYearList = new ArrayList<>();
