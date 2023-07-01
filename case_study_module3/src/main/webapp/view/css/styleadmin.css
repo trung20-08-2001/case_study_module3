@@ -1,0 +1,35 @@
+
+table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+th, td {
+    padding: 0px;
+    border: 1px;
+    width: 120px;
+    height: 50px;
+    text-align: center;
+}
+table{
+    margin: 0px 50px;
+    float: left;
+}
+.calendar{
+    width: 99999px;
+    margin-left: 0px;
+}
+.slice{
+    width: 941px;
+    margin: 1px auto;
+    overflow: hidden;
+    position: relative;
+}
+.arrow{
+    position: absolute;
+    top:45%;
+}
+.arrow i:last-child{
+    position: relative;
+    left: 870px;
+}
+html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}

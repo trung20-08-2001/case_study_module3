@@ -13,12 +13,18 @@ SalaryPerencentage DOUBLE
 );
 
 create table CalendarWorkingYear(
-Id int auto_increment primary key,
-Date Date,
+Date Date primary key,
 IdTypeWorkingDate int,
 foreign key (IdTypeWorkingDate) references TypeWorkingDate(Id)
 );
 
+insert into CalendarWorkingYear() values
+("2023-5-6",1),
+("2023-5-7",2),
+("2023-5-8",3);
+
+update CalendarWorkingYear set IdTypeWorkingDate=2 where date="2023-9-6";
+select * from CalendarWorkingYear where date="2023-1-15";
 
 CREATE TABLE Positions(
 Id int  primary key,
@@ -36,8 +42,7 @@ CREATE TABLE Employee (
     phone VARCHAR(11),
     joinDate DATE,
     numberOfDependents tinyint,
-    Img text,
-    foreign key(IdCalendarWorkingYear) references CalendarWorkingYear(Id)
+    Img text
 );
 
 
@@ -88,11 +93,12 @@ foreign key (IdAllowance) references Allowance(Id)
 
 
 create table WorkingDateDetail(
-WorkingDate date primary key,
+WorkingDate date,
 IDEmployee int,
 HoursIn datetime,
 HoursOut datetime,
-foreign key(IDEmployee) references Employee(ID)
+foreign key(IDEmployee) references Employee(ID),
+foreign key(WorkingDate)references CalendarWorkingYear(Date)
 );
 
 create table Message(
@@ -109,8 +115,7 @@ constraint IdEmployeeDifferent check (IdEmployeeSent<>IdEmployeeReceive)
 insert into TypeWorkingDate(Id,Name) values
 (1,"Ngày thường"),
 (2,"Ngày lễ"),
-(3,"Thứ bảy,Chủ nhật"),
-(4,"Nghỉ bù");
+(3,"Thứ bảy,Chủ nhật");
 
 insert into CalendarWorkingYear(Date,IdTypeWorkingDate) values
 ("2023-6-19",1),

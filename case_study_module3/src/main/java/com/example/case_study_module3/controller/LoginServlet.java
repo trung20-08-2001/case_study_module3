@@ -18,7 +18,7 @@ public class LoginServlet extends HttpServlet {
     EmployeeDAO employeeDAO = new EmployeeDAO();
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         RequestDispatcher dispatcher=req.getRequestDispatcher("/view/login.jsp");
         int id = Integer.parseInt(req.getParameter("id"));
         String password = req.getParameter("password");

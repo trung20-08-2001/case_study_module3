@@ -1,8 +1,6 @@
 package com.example.case_study_module3.service;
 
-import com.example.case_study_module3.enums.Role;
-
-import java.sql.SQLOutput;
+import java.time.LocalDate;
 import java.util.Calendar;
 
 public class test {
@@ -24,6 +22,7 @@ public class test {
                         System.out.print("   ");
                     }
                 }
+
                 System.out.printf("%2d ", day);
                 if (dayOfWeek == Calendar.SATURDAY) {
                     System.out.println();
@@ -31,7 +30,6 @@ public class test {
             }
             System.out.println();
         }
-
 
 
         Calendar calendar2 = Calendar.getInstance();
@@ -60,9 +58,5 @@ public class test {
                 dayName = "Thứ bảy";
                 break;
         }
-        System.out.println("Hôm nay là " + dayName);
-
     }
-
-
 }

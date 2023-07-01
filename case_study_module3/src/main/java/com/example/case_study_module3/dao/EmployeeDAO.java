@@ -1,10 +1,8 @@
 package com.example.case_study_module3.dao;
 
 import com.example.case_study_module3.model.Employee;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+
+import java.sql.*;
 
 public class EmployeeDAO {
     Connect connect = new Connect();
@@ -25,6 +23,11 @@ public class EmployeeDAO {
                 int idPosition = resultSet.getInt("IdPosition");
                 String name = resultSet.getString("Name");
                 boolean statusContract=resultSet.getBoolean("Status");
+                Date birthday=resultSet.getDate("dateOfBirth");
+                String phone=resultSet.getString("phone");
+                Date joinDate=resultSet.getDate("joinDate");
+                int numberOfDependents=resultSet.getInt("numberOfDependents");
+                String img=resultSet.getString("Img");
                 employee= new Employee(id, password, idPosition, name, statusContract);
             }
         } catch (SQLException e) {
@@ -37,10 +40,10 @@ public class EmployeeDAO {
     public boolean getId(int id) {
         try (Connection connection = connect.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ID)) {
-            preparedStatement.setInt(1,id);
-            ResultSet resultSet=preparedStatement.executeQuery();
+            preparedStatement.setInt(1, id);
+            ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
-               return true;
+                return true;
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -48,10 +51,4 @@ public class EmployeeDAO {
         }
         return false;
     }
-
-    public static void main(String[] args) {
-        EmployeeDAO employeeDAO=new EmployeeDAO();
-        employeeDAO.getEmployee(4,"nv123456");
-    }
-
 }

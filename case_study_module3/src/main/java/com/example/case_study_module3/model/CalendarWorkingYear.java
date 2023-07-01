@@ -1,28 +1,19 @@
 package com.example.case_study_module3.model;
 
+import com.example.case_study_module3.enums.WorkingDateType;
+
 import java.util.Date;
 
 public class CalendarWorkingYear {
-
-    private int id;
     private Date date;
-    private int IdTypeWorkingDate;
+    private int idWorkingDateType;
 
     public CalendarWorkingYear() {
     }
 
-    public CalendarWorkingYear(int id, Date date, int idTypeWorkingDate) {
-        this.id = id;
+    public CalendarWorkingYear(Date date, int idWorkingDateType) {
         this.date = date;
-        IdTypeWorkingDate = idTypeWorkingDate;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
+        this.idWorkingDateType = idWorkingDateType;
     }
 
     public Date getDate() {
@@ -33,11 +24,11 @@ public class CalendarWorkingYear {
         this.date = date;
     }
 
-    public int getIdTypeWorkingDate() {
-        return IdTypeWorkingDate;
+    public int getIdWorkingDateType() {
+        return idWorkingDateType;
     }
 
-    public void setIdTypeWorkingDate(int idTypeWorkingDate) {
-        IdTypeWorkingDate = idTypeWorkingDate;
+    public void setIdWorkingDateType(int idWorkingDateType) {
+        this.idWorkingDateType = idWorkingDateType;
     }
 }

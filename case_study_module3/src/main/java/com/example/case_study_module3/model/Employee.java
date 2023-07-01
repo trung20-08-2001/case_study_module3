@@ -7,7 +7,6 @@ public class Employee {
     private String password;
     private int idPosition;
     private boolean statusContract;
-    private int idCalendarWorkingYear;
     private String name;
     private Date birthday;
     private String phone;
@@ -18,12 +17,11 @@ public class Employee {
     public Employee() {
     }
 
-    public Employee(int id, String password, int idPosition, boolean statusContract, int idCalendarWorkingYear, String name, Date birthday, String phone, Date joinDate, byte numberOfDependents, String img) {
+    public Employee(int id, String password, int idPosition, boolean statusContract, String name, Date birthday, String phone, Date joinDate, byte numberOfDependents, String img) {
         this.id = id;
         this.password = password;
         this.idPosition = idPosition;
         this.statusContract = statusContract;
-        this.idCalendarWorkingYear = idCalendarWorkingYear;
         this.name = name;
         this.birthday = birthday;
         this.phone = phone;
@@ -72,13 +70,6 @@ public class Employee {
         this.password = password;
     }
 
-    public int getIdCalendarWorkingYear() {
-        return idCalendarWorkingYear;
-    }
-
-    public void setIdCalendarWorkingYear(int idCalendarWorkingYear) {
-        this.idCalendarWorkingYear = idCalendarWorkingYear;
-    }
 
     public String getName() {
         return name;
