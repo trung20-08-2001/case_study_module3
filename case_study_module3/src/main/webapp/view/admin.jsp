@@ -1,7 +1,11 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page import="java.util.*" %>
 <%@ page import="java.time.LocalDate" %>
 <%@ page import="com.example.case_study_module3.enums.WorkingDateType" %>
+<%@ page import="com.example.case_study_module3.dao.CalendarWorkingYearDAO" %>
+<%@ page import="java.util.Date" %>
+<%@ page import="com.example.case_study_module3.dao.CalendarWorkingYearDAO" %>
+<%@ page import="java.util.TreeMap" %>
+<%@ page import="java.util.Calendar" %>
 
 <%--
   Created by IntelliJ IDEA.
@@ -20,7 +24,7 @@
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
 
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.4/dist/jquery.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
@@ -39,7 +43,7 @@
 <nav class="w3-sidebar w3-collapse w3-white w3-animate-left" style="z-index:3;width:300px;" id="mySidebar"><br>
     <div class="w3-container w3-row">
         <div class="w3-col s4">
-            <img src="/w3images/avatar2.png" class="w3-circle w3-margin-right" style="width:46px">
+            <img src="${employee.getImg()}" class="w3-circle w3-margin-right" style="width:46px">
         </div>
         <div class="w3-col s8 w3-bar">
             <span>Welcome, <strong>Mike</strong></span><br>
@@ -55,9 +59,10 @@
     <div class="w3-bar-block">
         <a href="#" class="w3-bar-item w3-button w3-padding-16 w3-hide-large w3-dark-grey w3-hover-black"
            onclick="w3_close()" title="close menu"><i class="fa fa-remove fa-fw"></i>  Close Menu</a>
-        <a href="#workingDate" class="w3-bar-item w3-button w3-padding w3-blue"><i class="fa fa-calendar"></i>   Tạo lịch làm việc</a>
-        <a href="#" class="w3-bar-item w3-button w3-padding"><i class="fa fa-calendar"></i>  Xem lịch làm việc</a>
-        <a href="#clickFingerprint" class="w3-bar-item w3-button w3-padding"><i class="fa fa-users fa-fw"></i>  Chấm công</a>
+        <a href="#workingDate" class="w3-bar-item w3-button w3-padding w3-blue"><i class="fa fa-calendar"></i>   Xem,sửa
+            lịch làm việc</a>
+        <a href="#clickFingerprint" class="w3-bar-item w3-button w3-padding"><i class="fa fa-users fa-fw"></i>  Chấm
+            công</a>
         <a href="#" class="w3-bar-item w3-button w3-padding"><i class="fa fa-bullseye fa-fw"></i>  Xem TimeRecord</a>
         <a href="#" class="w3-bar-item w3-button w3-padding"><i class="fa fa-diamond fa-fw"></i>  Orders</a>
         <a href="#" class="w3-bar-item w3-button w3-padding"><i class="fa fa-bell fa-fw"></i>  News</a>
@@ -74,19 +79,23 @@
 
 <!-- !PAGE CONTENT! -->
 <div class="w3-main" style="margin-left:300px;margin-top:43px;">
-
-    <!-- Header -->
-    <header class="w3-container" style="padding-top:22px">
-        <h5><b><i class="fa fa-dashboard"></i> My Dashboard</b></h5>
-    </header>
     <!-------------------------------------------------------------
 
-                            CREATE CALENDAR
+                            CREATE,VIEW  CALENDAR
 
     ---------------------------------------------------------------->
     <div id="workingDate">
-        <%int year = LocalDate.now().getYear();%>
-        <h1 style="text-align: center">Calendar <%=year%></h1>
+        <h1 class="text-center text-success" >Xem, sửa lịch làm việc</h1>
+        <hr>
+        <%
+            int year=LocalDate.now().getYear();
+            TreeMap<Date,Integer> treeMap=new CalendarWorkingYearDAO().getCalendarWorkingYear(year);
+            Calendar calendar = Calendar.getInstance();
+            calendar.clear();
+            calendar.set(Calendar.YEAR, year);
+        %>
+        <h1 style="text-align: center">Calendar <%=year%>
+        </h1>
         <div class="slice">
             <div class="arrow">
 
@@ -96,9 +105,6 @@
             </div>
             <div class="calendar">
                 <%
-                    Calendar calendar = Calendar.getInstance();
-                    calendar.clear();
-                    calendar.set(Calendar.YEAR, year);
                     for (int month = 0; month < 12; month++) {
                         calendar.set(Calendar.MONTH, month);
                         int maxDay = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
@@ -132,15 +138,84 @@
                         <%
                                 }
                             }
+                            Date date = new Date(year - 1900, month, day);
+                            int idWorkingDateType = treeMap.get(date);
+                            if (idWorkingDateType == WorkingDateType.NORMAL.getValue()) {
                         %>
                         <td>
-                            <button style="border: none" onclick="showWorkingDateType(<%=day%>,<%=month%>)"> <%=day%> </button>
-                            <ul id="typeWorkingDate<%=day%><%=month%>" class="allDay" style="display: none" >
-                                <li> <a href="/createCalendar?year=<%=year%>&month=<%=month%>&day=<%=day%>&type=<%=WorkingDateType.HOLIDAY.getValue()%>">Nghỉ lễ </a></li>
-                                <li> <a href="/createCalendar?year=<%=year%>&month=<%=month%>&day=<%=day%>&type=<%=WorkingDateType.WEEKEND.getValue()%>">Nghỉ bù</a></li>
+                            <button style="border:none ; color: black"
+                                    onclick="showWorkingDateType(<%=day%>,<%=month%>)"><%=day%>
+                            </button>
+                            <ul id="typeWorkingDate<%=day%><%=month%>" class="allDay" style="display: none">
+                                <li>
+                                    <a style="color: red"
+                                       href="/editCalendar?year=<%=year%>&month=<%=month%>&day=<%=day%>&type=<%=WorkingDateType.HOLIDAY.getValue()%>">Nghỉ
+                                        lễ </a></li>
+                                <li>
+                                    <a style="color: blue"
+                                       href="/editCalendar?year=<%=year%>&month=<%=month%>&day=<%=day%>&type=<%=WorkingDateType.WEEKEND.getValue()%>">Nghỉ
+                                        bù</a></li>
                             </ul>
                         </td>
                         <%
+                            }
+                            if (idWorkingDateType == WorkingDateType.HOLIDAY.getValue()) {
+                        %>
+                        <td>
+                            <button style="border: 1px solid red; border-radius: 50%"
+                                    onclick="showWorkingDateType(<%=day%>,<%=month%>)"><%=day%>
+                            </button>
+                            <ul id="typeWorkingDate<%=day%><%=month%>" class="allDay" style="display: none">
+                                <li>
+                                    <a style="color: red"
+                                       href="/editCalendar?year=<%=year%>&month=<%=month%>&day=<%=day%>&type=<%=WorkingDateType.HOLIDAY.getValue()%>">Nghỉ
+                                        lễ </a></li>
+                                <li>
+                                    <a style="color: blue"
+                                       href="/editCalendar?year=<%=year%>&month=<%=month%>&day=<%=day%>&type=<%=WorkingDateType.WEEKEND.getValue()%>">Nghỉ
+                                        bù</a></li>
+                            </ul>
+                        </td>
+                        <%
+                            }
+                            if (idWorkingDateType == WorkingDateType.WEEKEND.getValue()) {
+                        %>
+                        <td>
+                            <button style="border: 1px solid green; border-radius: 50%"
+                                    onclick="showWorkingDateType(<%=day%>,<%=month%>)"><%=day%>
+                            </button>
+                            <ul id="typeWorkingDate<%=day%><%=month%>" class="allDay" style="display: none">
+                                <li>
+                                    <a style="color: red"
+                                       href="/editCalendar?year=<%=year%>&month=<%=month%>&day=<%=day%>&type=<%=WorkingDateType.HOLIDAY.getValue()%>">Nghỉ
+                                        lễ </a></li>
+                                <li>
+                                    <a style="color: blue"
+                                       href="/editCalendar?year=<%=year%>&month=<%=month%>&day=<%=day%>&type=<%=WorkingDateType.WEEKEND.getValue()%>">Nghỉ
+                                        bù</a></li>
+                            </ul>
+                        </td>
+                        <%
+                            }
+                            if (idWorkingDateType == WorkingDateType.COMPENSATORY_LEAVE.getValue()) {
+                        %>
+                        <td>
+                            <button style="border: 1px solid blue; border-radius: 50% "
+                                    onclick="showWorkingDateType(<%=day%>,<%=month%>)"><%=day%>
+                            </button>
+                            <ul id="typeWorkingDate<%=day%><%=month%>" class="allDay" style="display: none">
+                                <li>
+                                    <a style="color: red"
+                                       href="/editCalendar?year=<%=year%>&month=<%=month%>&day=<%=day%>&type=<%=WorkingDateType.HOLIDAY.getValue()%>">Nghỉ
+                                        lễ </a></li>
+                                <li>
+                                    <a style="color: blue"
+                                       href="/editCalendar?year=<%=year%>&month=<%=month%>&day=<%=day%>&type=<%=WorkingDateType.WEEKEND.getValue()%>">Nghỉ
+                                        bù</a></li>
+                            </ul>
+                        </td>
+                        <%
+                            }
                             if (dayOfWeek == Calendar.SATURDAY) {
                         %>
                     </tr>
@@ -153,22 +228,44 @@
 
                 <%
                     }
+
                 %>
             </div>
         </div>
+        <div class="row">
+            <div class="col-6 d-flex justify-content-center">
+                <label class="text-warning" style="margin-left: 30px;font-size: 30px">Chú thích</label>
+                <ul>
+                    <li>
+                        <button style="border: 1px solid red; border-radius: 50%; width: 20px;height: 20px"></button>
+                        Ngày nghỉ lễ
+                    </li>
+                    <li>
+                        <button style="border: 1px solid green; border-radius: 50%;  width: 20px;height: 20px"></button>
+                        Ngày nghỉ cuối tuần
+                    </li>
+                    <li>
+                        <button style="border: 1px solid blue; border-radius: 50%;  width: 20px;height: 20px"></button>
+                        Ngày nghỉ bù
+                    </li>
+                </ul>
+            </div>
+<%--            <div class="col-6">--%>
+<%--                <label for="my-select" class="text-warning" style="font-size: 30px">Chọn năm</label>--%>
+<%--                <br>--%>
+<%--                <select id="my-select" size="3">--%>
+<%--                    <%--%>
+<%--                        for (int i = 1900; i < 3000; i++) {--%>
+<%--                    %>--%>
+<%--                    <option><a href="/viewCalendar?year=<%=i%>"><%=i%></a></option>--%>
+<%--                    <%--%>
+<%--                        }%>--%>
+<%--                </select>--%>
+<%--            </div>--%>
+        </div>
+    </div>
     </div>
     <hr>
-
-
-    <!-------------------------------------------------------------
-
-                             VIEW CALENDAR
-
-    ---------------------------------------------------------------->
-
-
-
-
 
     <!-------------------------------------------------------------
 
@@ -176,55 +273,33 @@
 
     ---------------------------------------------------------------->
 
-<div id="clickFingerprint">
-    <h1 style="text-align: center">Chấm công</h1>
-    <div class="d-flex justify-content-center">
-    <a href="/checkHour?id=${employee.getId()}" ><i class="fas fa-fingerprint" style="font-size:36px"></i></a>
-    </div>
-
-    <c:if test="${message!=null}">
-        <p>${message}</p>
-    </c:if>
-
-    <!-- The Modal -->
-    <div  id="myModal">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <!-- Modal body -->
-                <div class="modal-body">
-                    <h1 class="text-center">${message}</h1>
-                </div>
-                <!-- Modal footer -->
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-                </div>
-
-            </div>
+    <div id="clickFingerprint">
+        <h1 class="text-success text-center">Chấm công</h1>
+        <div class="d-flex justify-content-center">
+            <a href="/checkHour?id=${employee.getId()}"><i class="fas fa-fingerprint" style="font-size:36px"></i></a>
         </div>
+        <c:if test="${message!=null}">
+            <h3 class="text-success text-center">${message}</h3>
+        </c:if>
+
+<%--        <!-- The Modal -->--%>
+<%--        <div id="myModal">--%>
+<%--            <div class="modal-dialog">--%>
+<%--                <div class="modal-content">--%>
+<%--                    <!-- Modal body -->--%>
+<%--                    <div class="modal-body">--%>
+<%--                        <h1 class="text-center">${message}</h1>--%>
+<%--                    </div>--%>
+<%--                    <!-- Modal footer -->--%>
+<%--                    <div class="modal-footer">--%>
+<%--                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>--%>
+<%--                    </div>--%>
+
+<%--                </div>--%>
+<%--            </div>--%>
+<%--        </div>--%>
     </div>
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    <br>
 
     <hr>
     <div class="w3-container">
@@ -382,7 +457,7 @@
 </body>
 </html>
 <script>
-    let sizeTable = document.getElementsByClassName("slice")[0].clientWidth-0.3;
+    let sizeTable = document.getElementsByClassName("slice")[0].clientWidth - 0.3;
     let calendar = document.getElementsByClassName("calendar")[0];
     let move = 0;
 
@@ -404,12 +479,16 @@
         }
     }
 
-    function  showWorkingDateType(day,month) {
-        let allDay=document.getElementsByClassName("allDay");
-        let selectWorkingDateType = document.getElementById("typeWorkingDate"+day+month)
-        for(let i=0;i<allDay.length;i++){
-            allDay[i].style.display="none";
+    function showWorkingDateType(day, month) {
+        let allDay = document.getElementsByClassName("allDay");
+        let selectWorkingDateType = document.getElementById("typeWorkingDate" + day + month)
+        for (let i = 0; i < allDay.length; i++) {
+            allDay[i].style.display = "none";
         }
-        selectWorkingDateType.style.display="block";
+        if (selectWorkingDateType.style.display === "none") {
+            selectWorkingDateType.style.display = "block";
+        } else {
+            selectWorkingDateType.style.display = "none";
+        }
     }
 </script>

@@ -13,18 +13,12 @@ SalaryPerencentage DOUBLE
 );
 
 create table CalendarWorkingYear(
-Date Date primary key,
+DateWorking Date primary key,
 IdTypeWorkingDate int,
 foreign key (IdTypeWorkingDate) references TypeWorkingDate(Id)
 );
 
-insert into CalendarWorkingYear() values
-("2023-5-6",1),
-("2023-5-7",2),
-("2023-5-8",3);
 
-update CalendarWorkingYear set IdTypeWorkingDate=2 where date="2023-9-6";
-select * from CalendarWorkingYear where date="2023-1-15";
 
 CREATE TABLE Positions(
 Id int  primary key,
@@ -37,7 +31,6 @@ CREATE TABLE Employee (
     ID INT auto_increment PRIMARY KEY,
     Password varchar(100),
     Name VARCHAR(40),
-    IdCalendarWorkingYear int,
     dateOfBirth DATE,
     phone VARCHAR(11),
     joinDate DATE,
@@ -98,7 +91,7 @@ IDEmployee int,
 HoursIn datetime,
 HoursOut datetime,
 foreign key(IDEmployee) references Employee(ID),
-foreign key(WorkingDate)references CalendarWorkingYear(Date)
+foreign key(WorkingDate)references CalendarWorkingYear(DateWorking)
 );
 
 create table Message(
@@ -110,6 +103,15 @@ foreign key(IdEmployeeSent) references Employee(Id),
 foreign key(IdEmployeeReceive) references Employee(Id),
 constraint IdEmployeeDifferent check (IdEmployeeSent<>IdEmployeeReceive)
 );
+
+DELIMiTER //
+
+CREATE TRIGGER insert_WorkingDate BEFORE INSERT ON WorkingDateDetail FOR EACH ROW
+BEGIN
+   SET NEW.WorkingDate = DATE(NEW.HoursIn);
+END //
+
+DELIMITER ;
 
 
 insert into TypeWorkingDate(Id,Name) values

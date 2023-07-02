@@ -1,4 +1,4 @@
-package com.example.case_study_module3.controller;
+package com.example.case_study_module3.controller.calendar;
 
 import com.example.case_study_module3.dao.CalendarWorkingYearDAO;
 import com.example.case_study_module3.model.CalendarWorkingYear;
@@ -11,8 +11,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet("/createCalendar")
-public class CreateCalendarServlet extends HttpServlet {
+@WebServlet("/editCalendar")
+public class EditCalendarServlet extends HttpServlet {
     DateWorking dateWorking=new DateWorking();
     CalendarWorkingYearDAO calendarWorkingYearDAO=new CalendarWorkingYearDAO();
     @Override

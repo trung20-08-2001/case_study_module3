@@ -16,6 +16,7 @@ public class CheckInCheckOutDAO {
 
     public String saveHourInOut(LocalDateTime currentDateTime, int idEmployee) {
         String message = "";
+        String time=currentDateTime.getHour()+":"+currentDateTime.getMinute()+":"+ currentDateTime.getSecond();
         try (Connection connection = Connect.getConnection();
              PreparedStatement saveHourIn = connection.prepareStatement(INSERT_HOUR_IN);
              PreparedStatement saveHourOut = connection.prepareStatement(INSERT_HOUR_OUT)) {
@@ -23,13 +24,13 @@ public class CheckInCheckOutDAO {
                 saveHourIn.setInt(1, idEmployee);
                 saveHourIn.setTimestamp(2, Timestamp.valueOf(currentDateTime));
                 saveHourIn.execute();
-                message = "Bạn vào lúc ";
+                message = "Bạn vào lúc " +time;
             } else if(isClicked(idEmployee)==GOT_INTO){
                 saveHourOut.setTimestamp(1, Timestamp.valueOf(currentDateTime));
                 saveHourOut.setInt(2, idEmployee);
                 saveHourOut.setDate(3, new java.sql.Date(new Date().getTime()));
                 saveHourOut.execute();
-                message = "Bạn ra về lúc ";
+                message = "Bạn ra về lúc " +time;
             }else {
                 message="Ngày hôm nay bạn đã nhấn hai lần rồi";
             }
