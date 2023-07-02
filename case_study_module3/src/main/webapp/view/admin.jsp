@@ -6,6 +6,7 @@
 <%@ page import="com.example.case_study_module3.dao.CalendarWorkingYearDAO" %>
 <%@ page import="java.util.TreeMap" %>
 <%@ page import="java.util.Calendar" %>
+<%@ page import="com.example.case_study_module3.model.Employee" %>
 
 <%--
   Created by IntelliJ IDEA.
@@ -30,6 +31,10 @@
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
 </head>
+
+<% HttpSession httpSession= request.getSession();
+    Employee employee=(Employee)httpSession.getAttribute("employee");
+%>
 <body class="w3-light-grey">
 
 <div class="w3-bar w3-top w3-black w3-large" style="z-index:4">
@@ -43,10 +48,10 @@
 <nav class="w3-sidebar w3-collapse w3-white w3-animate-left" style="z-index:3;width:300px;" id="mySidebar"><br>
     <div class="w3-container w3-row">
         <div class="w3-col s4">
-            <img src="${employee.getImg()}" class="w3-circle w3-margin-right" style="width:46px">
+            <img src="<%=employee.getImg()%>" class="w3-circle w3-margin-right" style="width:46px">
         </div>
         <div class="w3-col s8 w3-bar">
-            <span>Welcome, <strong>Mike</strong></span><br>
+            <span>Welcome, <strong><%=employee.getName()%></strong></span><br>
             <a href="#" class="w3-bar-item w3-button"><i class="fa fa-envelope"></i></a>
             <a href="#" class="w3-bar-item w3-button"><i class="fa fa-user"></i></a>
             <a href="#" class="w3-bar-item w3-button"><i class="fa fa-cog"></i></a>
@@ -59,11 +64,10 @@
     <div class="w3-bar-block">
         <a href="#" class="w3-bar-item w3-button w3-padding-16 w3-hide-large w3-dark-grey w3-hover-black"
            onclick="w3_close()" title="close menu"><i class="fa fa-remove fa-fw"></i>  Close Menu</a>
-        <a href="#workingDate" class="w3-bar-item w3-button w3-padding w3-blue"><i class="fa fa-calendar"></i>   Xem,sửa
-            lịch làm việc</a>
-        <a href="#clickFingerprint" class="w3-bar-item w3-button w3-padding"><i class="fa fa-users fa-fw"></i>  Chấm
-            công</a>
-        <a href="#" class="w3-bar-item w3-button w3-padding"><i class="fa fa-bullseye fa-fw"></i>  Xem TimeRecord</a>
+        <a href="#" class="w3-bar-item w3-button w3-padding"><i class="fas fa-fingerprint"></i>  Thông tin tài khoản</a>
+        <a href="#workingDate" class="w3-bar-item w3-button w3-padding"><i class="fa fa-calendar"></i>   Xem,sửa lịch làm việc</a>
+        <a href="#clickFingerprint" class="w3-bar-item w3-button w3-padding"><i class="fas fa-fingerprint"></i>  Chấm công</a>
+        <a href="#" class="w3-bar-item w3-button w3-padding"><i class="fas fa-fingerprint"></i>  Xem TimeRecord</a>
         <a href="#" class="w3-bar-item w3-button w3-padding"><i class="fa fa-diamond fa-fw"></i>  Orders</a>
         <a href="#" class="w3-bar-item w3-button w3-padding"><i class="fa fa-bell fa-fw"></i>  News</a>
         <a href="#" class="w3-bar-item w3-button w3-padding"><i class="fa fa-bank fa-fw"></i>  General</a>
@@ -79,17 +83,47 @@
 
 <!-- !PAGE CONTENT! -->
 <div class="w3-main" style="margin-left:300px;margin-top:43px;">
+
+    <!-------------------------------------------------------------
+
+                          VIEW INFORMATION ACCOUNT
+
+  ---------------------------------------------------------------->
+
+    <div id="information">
+        <div class="container mt-4 mb-4 p-3 d-flex justify-content-center">
+            <div class="card p-4">
+                <div class=" image d-flex flex-column justify-content-center align-items-center">
+                    <h1 class="text-success text-center">Thông tin tài khoản</h1>
+                    <img src="<%=employee.getImg()%>" height="200" width="200"/>
+                    <div class="d-flex flex-row justify-content-center align-items-center mt-3"><span><%=employee.getName()%></span></div>
+                    <div class="d-flex flex-row justify-content-center align-items-center mt-3"><span>Mã nhân viên: <%=employee.getId()%></span></div>
+                    <div class="d-flex flex-row justify-content-center align-items-center mt-3"><span>Vị trí: <%=employee.getNamePosition()%></span></div>
+                    <div class="d-flex flex-row justify-content-center align-items-center mt-3"><span>Phòng: <%=employee.getNameDepartment()%></span></div>
+                    <div class="d-flex flex-row justify-content-center align-items-center mt-3"><span>Ngày sinh: <%=employee.getBirthday()%></span></div>
+                    <div class="d-flex flex-row justify-content-center align-items-center mt-3"><span>SDT: <%=employee.getPhone()%></span></div>
+                    <div class="d-flex flex-row justify-content-center align-items-center mt-3"><span>Ngày vào công ty: <%=employee.getJoinDate()%></span></div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+
     <!-------------------------------------------------------------
 
                             CREATE,VIEW  CALENDAR
 
     ---------------------------------------------------------------->
+
     <div id="workingDate">
-        <h1 class="text-center text-success" >Xem, sửa lịch làm việc</h1>
+        <br><br><br>
+        <h1 class="text-center text-success">Xem, sửa lịch làm việc</h1>
         <hr>
         <%
-            int year=LocalDate.now().getYear();
-            TreeMap<Date,Integer> treeMap=new CalendarWorkingYearDAO().getCalendarWorkingYear(year);
+            int year = LocalDate.now().getYear();
+            TreeMap<Date, Integer> treeMap = new CalendarWorkingYearDAO().getCalendarWorkingYear(year);
             Calendar calendar = Calendar.getInstance();
             calendar.clear();
             calendar.set(Calendar.YEAR, year);
@@ -250,20 +284,19 @@
                     </li>
                 </ul>
             </div>
-<%--            <div class="col-6">--%>
-<%--                <label for="my-select" class="text-warning" style="font-size: 30px">Chọn năm</label>--%>
-<%--                <br>--%>
-<%--                <select id="my-select" size="3">--%>
-<%--                    <%--%>
-<%--                        for (int i = 1900; i < 3000; i++) {--%>
-<%--                    %>--%>
-<%--                    <option><a href="/viewCalendar?year=<%=i%>"><%=i%></a></option>--%>
-<%--                    <%--%>
-<%--                        }%>--%>
-<%--                </select>--%>
-<%--            </div>--%>
+            <%--            <div class="col-6">--%>
+            <%--                <label for="my-select" class="text-warning" style="font-size: 30px">Chọn năm</label>--%>
+            <%--                <br>--%>
+            <%--                <select id="my-select" size="3">--%>
+            <%--                    <%--%>
+            <%--                        for (int i = 1900; i < 3000; i++) {--%>
+            <%--                    %>--%>
+            <%--                    <option><a href="/viewCalendar?year=<%=i%>"><%=i%></a></option>--%>
+            <%--                    <%--%>
+            <%--                        }%>--%>
+            <%--                </select>--%>
+            <%--            </div>--%>
         </div>
-    </div>
     </div>
     <hr>
 
@@ -274,6 +307,7 @@
     ---------------------------------------------------------------->
 
     <div id="clickFingerprint">
+        <br><br><br>
         <h1 class="text-success text-center">Chấm công</h1>
         <div class="d-flex justify-content-center">
             <a href="/checkHour?id=${employee.getId()}"><i class="fas fa-fingerprint" style="font-size:36px"></i></a>
@@ -282,26 +316,36 @@
             <h3 class="text-success text-center">${message}</h3>
         </c:if>
 
-<%--        <!-- The Modal -->--%>
-<%--        <div id="myModal">--%>
-<%--            <div class="modal-dialog">--%>
-<%--                <div class="modal-content">--%>
-<%--                    <!-- Modal body -->--%>
-<%--                    <div class="modal-body">--%>
-<%--                        <h1 class="text-center">${message}</h1>--%>
-<%--                    </div>--%>
-<%--                    <!-- Modal footer -->--%>
-<%--                    <div class="modal-footer">--%>
-<%--                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>--%>
-<%--                    </div>--%>
 
-<%--                </div>--%>
-<%--            </div>--%>
-<%--        </div>--%>
+        <%--        <!-- The Modal -->--%>
+        <%--        <div id="myModal">--%>
+        <%--            <div class="modal-dialog">--%>
+        <%--                <div class="modal-content">--%>
+        <%--                    <!-- Modal body -->--%>
+        <%--                    <div class="modal-body">--%>
+        <%--                        <h1 class="text-center">${message}</h1>--%>
+        <%--                    </div>--%>
+        <%--                    <!-- Modal footer -->--%>
+        <%--                    <div class="modal-footer">--%>
+        <%--                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>--%>
+        <%--                    </div>--%>
+
+        <%--                </div>--%>
+        <%--            </div>--%>
+        <%--        </div>--%>
     </div>
-    <br>
-
     <hr>
+
+
+    <!-------------------------------------------------------------
+
+
+                       VIEW TIMERECORD
+
+
+    --------------------------------------------------------------->
+
+
     <div class="w3-container">
         <h5>General Stats</h5>
         <p>New Visitors</p>
@@ -428,6 +472,7 @@
 
     <!-- End page content -->
 </div>
+</body>
 
 <script>
     // Get the Sidebar
@@ -453,8 +498,6 @@
         overlayBg.style.display = "none";
     }
 </script>
-
-</body>
 </html>
 <script>
     let sizeTable = document.getElementsByClassName("slice")[0].clientWidth - 0.3;

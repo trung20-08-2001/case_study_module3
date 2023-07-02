@@ -7,81 +7,80 @@ ALTER USER "root"@"localhost" IDENTIFIED BY "123456789";
 
 
 create table TypeWorkingDate(
-Id int primary key,
-Name varchar(20),
+IdTypeWorkingDate int auto_increment primary key,
+NameTypeWorkingDate varchar(20),
 SalaryPerencentage DOUBLE
 );
+
 
 create table CalendarWorkingYear(
 DateWorking Date primary key,
 IdTypeWorkingDate int,
-foreign key (IdTypeWorkingDate) references TypeWorkingDate(Id)
+foreign key (IdTypeWorkingDate) references TypeWorkingDate(IdTypeWorkingDate)
 );
 
 
-
 CREATE TABLE Positions(
-Id int  primary key,
-Name varchar(50),
-ValuesAllowance int
+IdPosition int auto_increment primary key,
+NamePosition varchar(50),
+ValuesAllowance int default 0
 );
 
 
 CREATE TABLE Employee (
-    ID INT auto_increment PRIMARY KEY,
-    Password varchar(100),
-    Name VARCHAR(40),
-    dateOfBirth DATE,
-    phone VARCHAR(11),
-    joinDate DATE,
-    numberOfDependents tinyint,
-    Img text
+    IDEmployee INT auto_increment PRIMARY KEY,
+    PasswordEmployee varchar(100),
+    NameEmployee VARCHAR(40),
+    dateOfBirthEmployee DATE,
+    phoneEmployee VARCHAR(11),
+    joinDateEmployee DATE,
+    numberOfDependentsEmployee tinyint default 0,
+    ImgEmployee text
 );
 
 
-
 create table Department(
-Id int auto_increment primary key,
-Name varchar(120)
+IdDepartment int auto_increment primary key,
+NameDepartment varchar(120)
 );
 
 
 create table TypeAllowance(
-Id int auto_increment primary key,
-Name varchar(100)
+IdTypeAllowance int auto_increment primary key,
+NameTypeAllowance varchar(100)
 );
 
 
-create table Allowance(
-Id int auto_increment primary key,
+create table AllowanceSeniority(
+IdAllowanceSeniority int auto_increment primary key,
 IdTypeAllowance int,
-Name varchar(100),
-ValuesAllowance int,
-foreign key (IdTypeAllowance) references TypeAllowance(Id)
+NumberMonth int,
+ValueAllowanceSeniority double,
+foreign key(IdTypeAllowance) references TypeAllowance(IdTypeAllowance)
+);
+
+
+create table AllowanceChange(
+IdAllowanceChange int auto_increment primary key,
+IdTypeAllowance int,
+NameAllowanceChange varchar(100),
+ValuesAllowanceChange double,
+foreign key (IdTypeAllowance) references TypeAllowance(IdTypeAllowance)
 );
 
 
 create table Contract(
-    ID int auto_increment PRIMARY KEY,
+    IDContract int auto_increment PRIMARY KEY,
 	IDEmployee INT,
-    IdAllowance int ,
     IdPosition INT,
     IdDepartment INT,
     basicSalary INT,
-    StartDay DATE,
-    EndDay DATE,
-    Status BOOLEAN,
-	FOREIGN KEY (idEmployee) REFERENCES Employee (ID),
-    FOREIGN KEY (IdPosition) REFERENCES Positions (Id),
-    FOREIGN KEY (IdDepartment) REFERENCES department (Id)
-);
-
-
-create table AllowanceDetail(
-IDContract int ,
-IdAllowance int,
-foreign key (IDContract) references Contract(ID),
-foreign key (IdAllowance) references Allowance(Id)
+    StartDayContract DATE,
+    EndDayContract DATE,
+    StatusContract BOOLEAN,
+	FOREIGN KEY (idEmployee) REFERENCES Employee (IDEmployee),
+    FOREIGN KEY (IdPosition) REFERENCES Positions (IdPosition),
+    FOREIGN KEY (IdDepartment) REFERENCES department (Iddepartment)
 );
 
 
@@ -90,17 +89,18 @@ WorkingDate date,
 IDEmployee int,
 HoursIn datetime,
 HoursOut datetime,
-foreign key(IDEmployee) references Employee(ID),
+foreign key(IDEmployee) references Employee(IDEmployee),
 foreign key(WorkingDate)references CalendarWorkingYear(DateWorking)
 );
+
 
 create table Message(
 IdMessage int auto_increment primary key,
 IdEmployeeSent int,
 IdEmployeeReceive int,
 Content longtext,
-foreign key(IdEmployeeSent) references Employee(Id),
-foreign key(IdEmployeeReceive) references Employee(Id),
+foreign key(IdEmployeeSent) references Employee(IdEmployee),
+foreign key(IdEmployeeReceive) references Employee(IdEmployee),
 constraint IdEmployeeDifferent check (IdEmployeeSent<>IdEmployeeReceive)
 );
 
@@ -114,49 +114,67 @@ END //
 DELIMITER ;
 
 
-insert into TypeWorkingDate(Id,Name) values
-(1,"Ngày thường"),
-(2,"Ngày lễ"),
-(3,"Thứ bảy,Chủ nhật");
-
-insert into CalendarWorkingYear(Date,IdTypeWorkingDate) values
-("2023-6-19",1),
-("2023-6-20",1),
-("2023-6-21",1),
-("2023-6-22",1),
-("2023-6-23",1),
-("2023-6-24",3),
-("2023-6-25",3);
-
-insert into Positions(Id,Name) values
-(1,"Giám đốc"),
-(2,"Quản lí"),
-(3,"Nhân sự"),
-(4,"Nhân viên");
-
-
-insert into Employee(Id,Password) values
-(1,"gd123456"),
-(2,"ql123456"),
-(3,"ns123456"),
-(4,"nv123546"),
-(5,"nv123456");
-
-insert into Contract(IDEmployee,IdPosition,Status) values
-(1,1,true),
-(2,2,true),
-(3,3,true),
-(4,4,true),
-(5,4,false);
+-- tạo trigger khi tạo hợp đồng đẩu tiên thì điền vào cột joinDate của nv
                          
 
+insert into TypeWorkingDate(IdTypeWorkingDate,NameTypeWorkingDate) values
+(1,"Ngày thường"),
+(2,"Ngày lễ"),
+(3,"Thứ bảy,Chủ nhật"),
+(4,"Nghỉ bù");
 
 
+insert into Positions values
+(1,"Giám đốc",0),
+(2,"Quản lí",0),
+(3,"Nhân sự",0),
+(4,"Nhân viên",0);
 
 
+insert into Employee(IdEmployee,PasswordEmployee,NameEmployee,dateOfBirthEmployee,phoneEmployee,numberOfDependentsEmployee,ImgEmployee) values
+(1,"gd123456","Lý Giám đốc","1985-2-3","0314523695",2,"https://iphonecugiare.com/wp-content/uploads/2020/03/90072494_1148106232202126_7381238139576123392_o.jpg"),
+(2,"ql123456","Lê Văn Quản lí","1990-3-9","0456963125",1,"https://iphonecugiare.com/wp-content/uploads/2020/03/90072494_1148106232202126_7381238139576123392_o.jpg"),
+(3,"ns123456","Lê Thị Nhân Sự","1990-5-6","0236412365",3,"https://iphonecugiare.com/wp-content/uploads/2020/03/90072494_1148106232202126_7381238139576123392_o.jpg"),
+(4,"nv123546","Lê Nhân Viên Một","1995-5-9","0236974139",2,"https://iphonecugiare.com/wp-content/uploads/2020/03/90072494_1148106232202126_7381238139576123392_o.jpg"),
+(5,"nv123456","Lê Văn Nhân Viên Hai","1999-5-2","0123698745",0,"https://iphonecugiare.com/wp-content/uploads/2020/03/90072494_1148106232202126_7381238139576123392_o.jpg");
 
 
+insert into Department values
+(1,"Director"),
+(2,"Software Development"),
+(3,"Sale&Markiting"),
+(4,"Customer Service"),
+(5,"Administration(Admin,HR,Accounting)");
 
+
+insert into TypeAllowance values
+(1,"Không dóng thuế"),
+(2,"Có đóng thuế");
+
+
+insert into  AllowanceSeniority() values
+(1,2,60,1000000),
+(2,2,120,2000000);
+
+
+insert into AllowanceChange (IdTypeAllowance,NameAllowanceChange,ValuesAllowanceChange)  values
+(1,"Đi lại",500000),
+(2,"Ăn trưa",600000);
+
+
+insert into Contract(IDEmployee,IdPosition,IdDepartment,basicSalary,StartDayContract,EndDayContract,StatusContract) values
+(1,1,1,0,"2015-12-3","2999-12-31",true),
+(2,2,2,10000000,"2018-3-2","2026-2-3",true),
+(3,3,5,10000000,"2017-5-2","2024-5-20",true),
+(4,4,2,10000000,"2020-10-6","2024-6-6",true),
+(5,4,2,10000000,"2021-12-2","2023-12-15",false);
+
+
+select * from Employee
+ join Contract on Employee.IdEmployee=Contract.IdEmployee
+ join Department on Contract.IdDepartment=Department.IdDepartment
+ join Positions on Contract.IdPosition=Positions.IdPosition
+ where Employee.IdEmployee=3 and Employee.PasswordEmployee="ns123456"; 
 
 
 

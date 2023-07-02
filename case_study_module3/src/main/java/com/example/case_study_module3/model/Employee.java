@@ -6,6 +6,8 @@ public class Employee {
     private  int id;
     private String password;
     private int idPosition;
+    private String namePosition;
+    private String nameDepartment;
     private boolean statusContract;
     private String name;
     private Date birthday;
@@ -17,10 +19,12 @@ public class Employee {
     public Employee() {
     }
 
-    public Employee(int id, String password, int idPosition, boolean statusContract, String name, Date birthday, String phone, Date joinDate, byte numberOfDependents, String img) {
+    public Employee(int id, String password, int idPosition, String namePosition, String nameDepartment, boolean statusContract, String name, Date birthday, String phone, Date joinDate, byte numberOfDependents, String img) {
         this.id = id;
         this.password = password;
         this.idPosition = idPosition;
+        this.namePosition = namePosition;
+        this.nameDepartment = nameDepartment;
         this.statusContract = statusContract;
         this.name = name;
         this.birthday = birthday;
@@ -30,12 +34,12 @@ public class Employee {
         this.img = img;
     }
 
-    public Employee(int id, String password, int idPosition, String name,boolean statusContract) {
-        this.id = id;
-        this.password = password;
-        this.idPosition = idPosition;
-        this.name=name;
-        this.statusContract=statusContract;
+    public String getNameDepartment() {
+        return nameDepartment;
+    }
+
+    public void setNameDepartment(String nameDepartment) {
+        this.nameDepartment = nameDepartment;
     }
 
     public boolean isStatusContract() {
@@ -118,4 +122,13 @@ public class Employee {
     public void setImg(String img) {
         this.img = img;
     }
+
+    public String getNamePosition() {
+        return namePosition;
+    }
+
+    public void setNamePosition(String namePosition) {
+        this.namePosition = namePosition;
+    }
+
 }

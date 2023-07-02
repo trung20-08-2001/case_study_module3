@@ -7,10 +7,12 @@ import java.sql.*;
 public class EmployeeDAO {
     Connect connect = new Connect();
     private final String SELECT_EMPLOYEE =
-            "select * from Employee" +
-                    " join Contract on Employee.Id=Contract.IdEmployee" +
-                    " where Employee.Id=? and Employee.Password=? ";
-    private  final String SELECT_ID=" select *from Employee join Contract on Employee.Id=Contract.IdEmployee where Employee.Id=?  and Contract.status=true;";
+            " select * from Employee " +
+                    " join Contract on Employee.IdEmployee=Contract.IdEmployee " +
+                    " join Department on Contract.IdDepartment=Department.IdDepartment " +
+                    " join Positions on Contract.IdPosition=Positions.IdPosition "+
+                    " where Employee.IdEmployee=? and Employee.PasswordEmployee=? ";
+    private  final String SELECT_ID=" select *from Employee join Contract on Employee.IdEmployee=Contract.IdEmployee where Employee.IdEmployee=?  and Contract.StatusContract=true ";
 
     public Employee getEmployee(int id, String password) {
         Employee employee=null;
@@ -21,14 +23,16 @@ public class EmployeeDAO {
             ResultSet resultSet=preparedStatement.executeQuery();
             if (resultSet.next()) {
                 int idPosition = resultSet.getInt("IdPosition");
-                String name = resultSet.getString("Name");
-                boolean statusContract=resultSet.getBoolean("Status");
-                Date birthday=resultSet.getDate("dateOfBirth");
-                String phone=resultSet.getString("phone");
-                Date joinDate=resultSet.getDate("joinDate");
-                byte numberOfDependents=resultSet.getByte("numberOfDependents");
-                String img=resultSet.getString("Img");
-                employee= new Employee(id,password,idPosition,statusContract,name,birthday,phone,joinDate,numberOfDependents,img);
+                String name = resultSet.getString("NameEmployee");
+                boolean statusContract=resultSet.getBoolean("StatusContract");
+                Date birthday=resultSet.getDate("dateOfBirthEmployee");
+                String phone=resultSet.getString("phoneEmployee");
+                Date joinDate=resultSet.getDate("joinDateEmployee");
+                byte numberOfDependents=resultSet.getByte("numberOfDependentsEmployee");
+                String namePosition=resultSet.getString("NamePosition");
+                String nameDepartment=resultSet.getString("nameDepartment");
+                String img=resultSet.getString("ImgEmployee");
+                employee= new Employee(id,password,idPosition,namePosition,nameDepartment,statusContract,name,birthday,phone,joinDate,numberOfDependents,img);
             }
         } catch (SQLException e) {
             e.printStackTrace();
