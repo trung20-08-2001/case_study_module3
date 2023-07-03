@@ -23,7 +23,7 @@ public class LoginServlet extends HttpServlet {
         int id = Integer.parseInt(req.getParameter("id"));
         String password = req.getParameter("password");
         Employee employee = employeeDAO.getEmployee(id, password);
-        boolean isEmployee=employeeDAO.getId(id);
+        boolean isEmployee=employeeDAO.checkId(id);
         req.setAttribute("employee",employee);
 
         HttpSession session= req.getSession();

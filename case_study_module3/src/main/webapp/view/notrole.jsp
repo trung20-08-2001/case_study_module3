@@ -11,6 +11,7 @@
     <title>Title</title>
 </head>
 <body>
+<img src="/view/img/notrole.png">
 <h1>Bạn không có quyền đăng nhập vào đây</h1>
 </body>
 </html>

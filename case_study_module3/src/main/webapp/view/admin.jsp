@@ -32,8 +32,8 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 
-<% HttpSession httpSession= request.getSession();
-    Employee employee=(Employee)httpSession.getAttribute("employee");
+<% HttpSession httpSession = request.getSession();
+    Employee employee = (Employee) httpSession.getAttribute("employee");
 %>
 <body class="w3-light-grey">
 
@@ -65,14 +65,18 @@
         <a href="#" class="w3-bar-item w3-button w3-padding-16 w3-hide-large w3-dark-grey w3-hover-black"
            onclick="w3_close()" title="close menu"><i class="fa fa-remove fa-fw"></i>  Close Menu</a>
         <a href="#" class="w3-bar-item w3-button w3-padding"><i class="fas fa-fingerprint"></i>  Thông tin tài khoản</a>
-        <a href="#workingDate" class="w3-bar-item w3-button w3-padding"><i class="fa fa-calendar"></i>   Xem,sửa lịch làm việc</a>
-        <a href="#clickFingerprint" class="w3-bar-item w3-button w3-padding"><i class="fas fa-fingerprint"></i>  Chấm công</a>
-        <a href="#" class="w3-bar-item w3-button w3-padding"><i class="fas fa-fingerprint"></i>  Xem TimeRecord</a>
+        <a href="#workingDate" class="w3-bar-item w3-button w3-padding"><i class="fa fa-calendar-check-o"></i>   Xem,sửa
+            lịch làm việc</a>
+        <a href="#clickFingerprint" class="w3-bar-item w3-button w3-padding"><i class="fas fa-fingerprint"></i>  Chấm
+            công</a>
+        <a href="/viewTimeRecord?id=<%=employee.getId()%>" class="w3-bar-item w3-button w3-padding"><i
+                class="fa fa-clock-o"></i>  Xem TimeRecord</a>
         <a href="#" class="w3-bar-item w3-button w3-padding"><i class="fa fa-diamond fa-fw"></i>  Orders</a>
         <a href="#" class="w3-bar-item w3-button w3-padding"><i class="fa fa-bell fa-fw"></i>  News</a>
         <a href="#" class="w3-bar-item w3-button w3-padding"><i class="fa fa-bank fa-fw"></i>  General</a>
         <a href="#" class="w3-bar-item w3-button w3-padding"><i class="fa fa-history fa-fw"></i>  History</a>
-        <a href="#" class="w3-bar-item w3-button w3-padding"><i class="fa fa-cog fa-fw"></i>  Settings</a><br><br>
+        <a href="/logout" class="w3-bar-item w3-button w3-padding"><i
+                class="fa fa-cog fa-fw"></i>  Log out</a><br><br>
     </div>
 </nav>
 
@@ -96,13 +100,20 @@
                 <div class=" image d-flex flex-column justify-content-center align-items-center">
                     <h1 class="text-success text-center">Thông tin tài khoản</h1>
                     <img src="<%=employee.getImg()%>" height="200" width="200"/>
-                    <div class="d-flex flex-row justify-content-center align-items-center mt-3"><span><%=employee.getName()%></span></div>
-                    <div class="d-flex flex-row justify-content-center align-items-center mt-3"><span>Mã nhân viên: <%=employee.getId()%></span></div>
-                    <div class="d-flex flex-row justify-content-center align-items-center mt-3"><span>Vị trí: <%=employee.getNamePosition()%></span></div>
-                    <div class="d-flex flex-row justify-content-center align-items-center mt-3"><span>Phòng: <%=employee.getNameDepartment()%></span></div>
-                    <div class="d-flex flex-row justify-content-center align-items-center mt-3"><span>Ngày sinh: <%=employee.getBirthday()%></span></div>
-                    <div class="d-flex flex-row justify-content-center align-items-center mt-3"><span>SDT: <%=employee.getPhone()%></span></div>
-                    <div class="d-flex flex-row justify-content-center align-items-center mt-3"><span>Ngày vào công ty: <%=employee.getJoinDate()%></span></div>
+                    <div class="d-flex flex-row justify-content-center align-items-center mt-3">
+                        <span><%=employee.getName()%></span></div>
+                    <div class="d-flex flex-row justify-content-center align-items-center mt-3">
+                        <span>Mã nhân viên: <%=employee.getId()%></span></div>
+                    <div class="d-flex flex-row justify-content-center align-items-center mt-3">
+                        <span>Vị trí: <%=employee.getNamePosition()%></span></div>
+                    <div class="d-flex flex-row justify-content-center align-items-center mt-3">
+                        <span>Phòng: <%=employee.getNameDepartment()%></span></div>
+                    <div class="d-flex flex-row justify-content-center align-items-center mt-3">
+                        <span>Ngày sinh: <%=employee.getBirthday()%></span></div>
+                    <div class="d-flex flex-row justify-content-center align-items-center mt-3">
+                        <span>SDT: <%=employee.getPhone()%></span></div>
+                    <div class="d-flex flex-row justify-content-center align-items-center mt-3">
+                        <span>Ngày vào công ty: <%=employee.getJoinDate()%></span></div>
                 </div>
             </div>
         </div>
@@ -187,7 +198,7 @@
                                         lễ </a></li>
                                 <li>
                                     <a style="color: blue"
-                                       href="/editCalendar?year=<%=year%>&month=<%=month%>&day=<%=day%>&type=<%=WorkingDateType.WEEKEND.getValue()%>">Nghỉ
+                                       href="/editCalendar?year=<%=year%>&month=<%=month%>&day=<%=day%>&type=<%=WorkingDateType.COMPENSATORY_LEAVE.getValue()%>">Nghỉ
                                         bù</a></li>
                             </ul>
                         </td>
@@ -206,7 +217,7 @@
                                         lễ </a></li>
                                 <li>
                                     <a style="color: blue"
-                                       href="/editCalendar?year=<%=year%>&month=<%=month%>&day=<%=day%>&type=<%=WorkingDateType.WEEKEND.getValue()%>">Nghỉ
+                                       href="/editCalendar?year=<%=year%>&month=<%=month%>&day=<%=day%>&type=<%=WorkingDateType.COMPENSATORY_LEAVE.getValue()%>">Nghỉ
                                         bù</a></li>
                             </ul>
                         </td>
@@ -225,7 +236,7 @@
                                         lễ </a></li>
                                 <li>
                                     <a style="color: blue"
-                                       href="/editCalendar?year=<%=year%>&month=<%=month%>&day=<%=day%>&type=<%=WorkingDateType.WEEKEND.getValue()%>">Nghỉ
+                                       href="/editCalendar?year=<%=year%>&month=<%=month%>&day=<%=day%>&type=<%=WorkingDateType.COMPENSATORY_LEAVE.getValue()%>">Nghỉ
                                         bù</a></li>
                             </ul>
                         </td>
@@ -244,7 +255,7 @@
                                         lễ </a></li>
                                 <li>
                                     <a style="color: blue"
-                                       href="/editCalendar?year=<%=year%>&month=<%=month%>&day=<%=day%>&type=<%=WorkingDateType.WEEKEND.getValue()%>">Nghỉ
+                                       href="/editCalendar?year=<%=year%>&month=<%=month%>&day=<%=day%>&type=<%=WorkingDateType.COMPENSATORY_LEAVE.getValue()%>">Nghỉ
                                         bù</a></li>
                             </ul>
                         </td>
@@ -340,10 +351,91 @@
     <!-------------------------------------------------------------
 
 
-                       VIEW TIMERECORD
+                       VIEW TIME RECORD
 
 
     --------------------------------------------------------------->
+    <div>
+        <div class="d-flex justify-content-center">
+            <c:if test="${timeRecordList!=null}">
+                <table style="text-align: center">
+                    <tr>
+                        <th>Ngày</th>
+                        <th>Loại</th>
+                        <th>Giờ vào</th>
+                        <th>Giờ ra</th>
+                        <th>Số làm hành chính</th>
+                        <th>Số giờ làm thêm</th>
+                        <th>Trạng thái</th>
+                        <th>Giải trình</th>
+                    </tr>
+                    <c:forEach items="${timeRecordList}" var="timeRecord">
+                        <tr>
+                            <td>${timeRecord.workingDate}</td>
+                            <td>${timeRecord.nameWorkingDateType}</td>
+                            <td>${timeRecord.getCheckInTime()}</td>
+                            <td>${timeRecord.getCheckOutTime()}</td>
+                            <td>${timeRecord.workingHours}</td>
+                            <td>${timeRecord.overTimeHours}</td>
+                            <td><c:if test="${timeRecord.status==false}"><c:out value="Thiếu giờ"></c:out></c:if>
+                                <c:if test="${timeRecord.status==true&&timeRecord.overTimeHours==0}"><c:out value="Ok"></c:out></c:if>
+                                <c:if test="${timeRecord.overTimeHours!=0}"><c:out value="Tăng ca"></c:out></c:if>
+                            </td>
+                            <td>
+                                <c:if test="${timeRecord.status==false||timeRecord.overTimeHours!=0}">
+                                    <button type="button" class="btn btn-primary" data-toggle="modal"
+                                            data-target="#reason">
+                                        Giải trình
+                                    </button>
+                                </c:if>
+                                <c:if test="${timeRecord.status==true&&timeRecord.overTimeHours==0}">
+                                    <button type="button" class="btn btn-secondary" s>
+                                        Giải trình
+                                    </button>
+                                </c:if>
+                            </td>
+                        </tr>
+                    </c:forEach>
+                </table>
+            </c:if>
+            <!-- The Modal -->
+            <div class="modal fade" id="reason">
+                <div class="modal-dialog">
+                    <div class="modal-content" style="width: 700px;height: 300px;">
+                        <form action="/reason?idEmployeeSent=<%=employee.getId()%>" method="get">
+                            <!-- Modal Header -->
+                            <div class="modal-header">
+                                <h4 class="modal-title text-center">Lí do mà bạn muốn giải trình</h4>
+                                <button type="button" class="close" data-dismiss="modal"></button>
+                            </div>
+
+                            <!-- Modal body -->
+                            <div>
+                            <textarea type="text" name="reason" class="form-control" rows="5"
+                                      placeholder="Nhập lí do"></textarea>
+                            </div>
+
+                            <!-- Modal footer -->
+                            <div>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <button type="button" class="btn btn-danger "
+                                                style="position: absolute;left: 50%" data-dismiss="modal">Close
+                                        </button>
+                                    </div>
+                                    <div class="col-6">
+                                        <button type="submit" class="btn btn-success "
+                                                style="position: absolute;left: 50%;" data-dismiss="modal">Gửi
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
 
     <div class="w3-container">

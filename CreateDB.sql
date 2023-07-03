@@ -5,6 +5,11 @@ use caseStudyModule3;
 
 ALTER USER "root"@"localhost" IDENTIFIED BY "123456789";
 
+create table StandardWorkingHours(
+HoursIn double,
+HoursOut double
+);
+
 
 create table TypeWorkingDate(
 IdTypeWorkingDate int auto_increment primary key,
@@ -99,10 +104,12 @@ IdMessage int auto_increment primary key,
 IdEmployeeSent int,
 IdEmployeeReceive int,
 Content longtext,
+StatusMessage boolean,
 foreign key(IdEmployeeSent) references Employee(IdEmployee),
 foreign key(IdEmployeeReceive) references Employee(IdEmployee),
 constraint IdEmployeeDifferent check (IdEmployeeSent<>IdEmployeeReceive)
 );
+
 
 DELIMiTER //
 
@@ -115,12 +122,12 @@ DELIMITER ;
 
 
 -- tạo trigger khi tạo hợp đồng đẩu tiên thì điền vào cột joinDate của nv
-                         
-
+      
+      
 insert into TypeWorkingDate(IdTypeWorkingDate,NameTypeWorkingDate) values
 (1,"Ngày thường"),
 (2,"Ngày lễ"),
-(3,"Thứ bảy,Chủ nhật"),
+(3,"Cuối tuần"),
 (4,"Nghỉ bù");
 
 
@@ -134,7 +141,7 @@ insert into Positions values
 insert into Employee(IdEmployee,PasswordEmployee,NameEmployee,dateOfBirthEmployee,phoneEmployee,numberOfDependentsEmployee,ImgEmployee) values
 (1,"gd123456","Lý Giám đốc","1985-2-3","0314523695",2,"https://iphonecugiare.com/wp-content/uploads/2020/03/90072494_1148106232202126_7381238139576123392_o.jpg"),
 (2,"ql123456","Lê Văn Quản lí","1990-3-9","0456963125",1,"https://iphonecugiare.com/wp-content/uploads/2020/03/90072494_1148106232202126_7381238139576123392_o.jpg"),
-(3,"ns123456","Lê Thị Nhân Sự","1990-5-6","0236412365",3,"https://iphonecugiare.com/wp-content/uploads/2020/03/90072494_1148106232202126_7381238139576123392_o.jpg"),
+(3,"ns123456","Lê Thị Nhân Sự","1990-5-6","0236412365",3,"https://upanh123.com/wp-content/uploads/2021/01/anh-chan-dung26-683x1024.jpg"),
 (4,"nv123546","Lê Nhân Viên Một","1995-5-9","0236974139",2,"https://iphonecugiare.com/wp-content/uploads/2020/03/90072494_1148106232202126_7381238139576123392_o.jpg"),
 (5,"nv123456","Lê Văn Nhân Viên Hai","1999-5-2","0123698745",0,"https://iphonecugiare.com/wp-content/uploads/2020/03/90072494_1148106232202126_7381238139576123392_o.jpg");
 
@@ -170,13 +177,16 @@ insert into Contract(IDEmployee,IdPosition,IdDepartment,basicSalary,StartDayCont
 (5,4,2,10000000,"2021-12-2","2023-12-15",false);
 
 
-select * from Employee
- join Contract on Employee.IdEmployee=Contract.IdEmployee
- join Department on Contract.IdDepartment=Department.IdDepartment
- join Positions on Contract.IdPosition=Positions.IdPosition
- where Employee.IdEmployee=3 and Employee.PasswordEmployee="ns123456"; 
-
-
+insert into WorkingDateDetail(IDEmployee,HoursIn,HoursOut) values
+(3,"2023-1-1 7:50:00","2023-1-1 17:30:00"),
+(3,"2023-1-2 7:50:00","2023-1-2 17:30:00"),
+(3,"2023-1-3 7:50:00","2023-1-3 19:30:00"),
+(3,"2023-1-4 9:00:00","2023-1-4 17:30:00"),
+(3,"2023-1-5 7:50:00","2023-1-5 14:30:00"),
+(3,"2023-1-6 7:50:00","2023-1-6 17:30:00"),
+(3,"2023-1-7 7:50:00","2023-1-7 18:30:00"),
+(3,"2023-1-8 7:50:00","2023-1-8 19:30:00"),
+(3,"2023-1-19 10:00:00","2023-1-19 17:30:00");
 
 
 

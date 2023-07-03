@@ -41,8 +41,7 @@ public class EmployeeDAO {
         return employee;
     }
 
-
-    public boolean getId(int id) {
+    public boolean checkId(int id) {
         try (Connection connection = connect.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ID)) {
             preparedStatement.setInt(1, id);
@@ -56,4 +55,7 @@ public class EmployeeDAO {
         }
         return false;
     }
+
+
+
 }
