@@ -11,7 +11,7 @@ import java.util.List;
 
 public class MessageDAO {
 
-    final String SEND_REQUIRE = " INSERT INTO Message(IdEmployeeSent,IdEmployeeReceive,Content,StatusMessage) VALUES (?,?,?,?)";
+    final String SEND_REQUIRE = " INSERT INTO Message(IdEmployeeSent,IdEmployeeReceive,Content,StatusMessage) VALUES (?,?,?,?) ";
 
     final String APPROVE_REQUEST = " UPDATE Message set StatusMessage=? WHERE IdMessage=? ";
 
@@ -28,6 +28,7 @@ public class MessageDAO {
             e.printStackTrace();
         }
     }
+
 
 
     public void approveRequest(int idMessage) {

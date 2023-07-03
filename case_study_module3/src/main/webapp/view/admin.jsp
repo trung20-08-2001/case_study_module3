@@ -402,7 +402,7 @@
             <div class="modal fade" id="reason">
                 <div class="modal-dialog">
                     <div class="modal-content" style="width: 700px;height: 300px;">
-                        <form action="/reason?idEmployeeSent=<%=employee.getId()%>" method="get">
+                        <form action="/reason" method="get">
                             <!-- Modal Header -->
                             <div class="modal-header">
                                 <h4 class="modal-title text-center">Lí do mà bạn muốn giải trình</h4>
@@ -411,8 +411,8 @@
 
                             <!-- Modal body -->
                             <div>
-                            <textarea type="text" name="reason" class="form-control" rows="5"
-                                      placeholder="Nhập lí do"></textarea>
+                            <input type="text" name="reason" class="form-control" rows="5"
+                                      placeholder="Nhập lí do">
                             </div>
 
                             <!-- Modal footer -->
@@ -425,7 +425,7 @@
                                     </div>
                                     <div class="col-6">
                                         <button type="submit" class="btn btn-success "
-                                                style="position: absolute;left: 50%;" data-dismiss="modal">Gửi
+                                                style="position: absolute;left: 50%;">Gửi
                                         </button>
                                     </div>
                                 </div>
