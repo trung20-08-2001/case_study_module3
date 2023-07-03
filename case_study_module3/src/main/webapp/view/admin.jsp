@@ -389,7 +389,7 @@
                                     </button>
                                 </c:if>
                                 <c:if test="${timeRecord.status==true&&timeRecord.overTimeHours==0}">
-                                    <button type="button" class="btn btn-secondary" s>
+                                    <button type="button" class="btn btn-secondary">
                                         Giải trình
                                     </button>
                                 </c:if>

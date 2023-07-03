@@ -5,11 +5,6 @@ use caseStudyModule3;
 
 ALTER USER "root"@"localhost" IDENTIFIED BY "123456789";
 
-create table StandardWorkingHours(
-HoursIn double,
-HoursOut double
-);
-
 
 create table TypeWorkingDate(
 IdTypeWorkingDate int auto_increment primary key,

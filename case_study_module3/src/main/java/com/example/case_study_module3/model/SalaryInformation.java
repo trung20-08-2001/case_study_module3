@@ -1,7 +1,7 @@
 package com.example.case_study_module3.model;
 
 import java.util.Date;
-import java.util.List;
+
 
 public class SalaryInformation{
     private Date monthYear;
@@ -24,10 +24,9 @@ public class SalaryInformation{
     private double personalTaxDeduction;  // thuế giảm trừ bản thân
     private double dependentTaxDeduction;  // giảm trừ thuế cho người phụ thuộc
     private double taxPayable;              // thuế phải đóng
-    private List<AdjustmentClause> adjustmentClauseList;  //các khoản điều chỉnh
     private double netSalary;
 
-    public SalaryInformation(Date monthYear, int standardWorkingDays, double actualWorkingDays, double overTimeNormal, double overTimeHoliday, double overtTimeWeekend, double takeLeave, double remindLeave, double basicSalary, double petroleumAllowance, double mealAllowance, double positionAllowance, double seniorityAllowance, double grossSalary, double unemploymentInsurance, double healthInsurance, double socialInsurance, double personalTaxDeduction, double dependentTaxDeduction, double taxPayable, List<AdjustmentClause> adjustmentClauseList,double netSalary) {
+    public SalaryInformation(Date monthYear, int standardWorkingDays, double actualWorkingDays, double overTimeNormal, double overTimeHoliday, double overtTimeWeekend, double takeLeave, double remindLeave, double basicSalary, double petroleumAllowance, double mealAllowance, double positionAllowance, double seniorityAllowance, double grossSalary, double unemploymentInsurance, double healthInsurance, double socialInsurance, double personalTaxDeduction, double dependentTaxDeduction, double taxPayable,double netSalary) {
         this.monthYear = monthYear;
         this.standardWorkingDays = standardWorkingDays;
         this.actualWorkingDays = actualWorkingDays;
@@ -48,7 +47,6 @@ public class SalaryInformation{
         this.personalTaxDeduction = personalTaxDeduction;
         this.dependentTaxDeduction = dependentTaxDeduction;
         this.taxPayable = taxPayable;
-        this.adjustmentClauseList = adjustmentClauseList;
         this.netSalary=netSalary;
     }
 
@@ -210,14 +208,6 @@ public class SalaryInformation{
 
     public void setTaxPayable(double taxPayable) {
         this.taxPayable = taxPayable;
-    }
-
-    public List<AdjustmentClause> getAdjustmentClauseList() {
-        return adjustmentClauseList;
-    }
-
-    public void setAdjustmentClauseList(List<AdjustmentClause> adjustmentClauseList) {
-        this.adjustmentClauseList = adjustmentClauseList;
     }
 
     public double getNetSalary() {
